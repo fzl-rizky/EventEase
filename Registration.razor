@@ -1,0 +1,44 @@
+<!-- Registration.razor -->
+@page "/registration"
+<h1>Event Registration</h1>
+
+<EditForm Model="@RegistrationModel" OnValidSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Name:</label>
+        <InputText id="name" @bind-Value="RegistrationModel.Name" />
+        <ValidationMessage For="@(() => RegistrationModel.Name)" />
+    </div>
+
+    <div>
+        <label>Email:</label>
+        <InputText id="email" @bind-Value="RegistrationModel.Email" />
+        <ValidationMessage For="@(() => RegistrationModel.Email)" />
+    </div>
+
+    <button type="submit">Register</button>
+</EditForm>
+
+<p>@Message</p>
+
+@code {
+    private RegistrationModel RegistrationModel = new();
+    private string Message;
+
+    private void HandleSubmit()
+    {
+        Message = "Registration successful!";
+    }
+
+    public class RegistrationModel
+    {
+        [Required(ErrorMessage = "Name is required.")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
+        public string Email { get; set; }
+    }
+}
