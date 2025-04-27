@@ -1,0 +1,31 @@
+<!-- AttendanceTracker.razor -->
+<h2>Attendance Tracker</h2>
+
+@if (RegisteredUsers.Any())
+{
+    <ul>
+        @foreach (var user in RegisteredUsers)
+        {
+            <li>@user</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No attendees registered yet.</p>
+}
+
+@code {
+    private List<string> RegisteredUsers = new List<string>();
+
+    [Parameter]
+    public string NewAttendee { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (!string.IsNullOrEmpty(NewAttendee))
+        {
+            RegisteredUsers.Add(NewAttendee);
+        }
+    }
+}
